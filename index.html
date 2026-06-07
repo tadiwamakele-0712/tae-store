@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="sn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Tae Gift Hampers — luxury gift hampers and boxes. Say it better with us.">
+  <title>Tae Gift Hampers</title>
+  <link rel="icon" href="images/logo.jpg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="images/logo.jpg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <img src="images/logo.jpg" alt="Tae Gift Hampers logo" class="brand-logo" width="56" height="56">
+      <span class="brand-text">
+        <span class="brand-name">Tae</span>
+        <span class="brand-sub">gift hampers</span>
+      </span>
+    </a>
+
+    <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="nav">
+      ☰
+    </button>
+
+    <nav id="nav" class="nav">
+      <a href="#gallery">Gifts</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <img src="images/logo.jpg" alt="Tae Gift Hampers" class="hero-logo">
+      <p class="hero-tag">Say it better with us</p>
+      <h1>Perfect Gifts for Every Occasion</h1>
+      <p>Browse our collection — beautiful gift hampers and boxes made with care.</p>
+      <a href="#gallery" class="btn">View Our Gifts</a>
+    </div>
+  </section>
+
+  <main>
+    <section id="gallery" class="gallery-section">
+      <div class="section-head">
+        <h2>Our Gift Collection</h2>
+        <p>Tap any image to view full size — for advertising &amp; enquiries only</p>
+      </div>
+      <div id="product-grid" class="product-grid"></div>
+    </section>
+
+    <section id="about" class="about-section">
+      <div class="about-bg"></div>
+      <div class="about-content">
+        <h2>About Tae Store</h2>
+        <p>
+          We create stunning gift hampers and presentation boxes for birthdays,
+          weddings, corporate events, and special celebrations. Every package is
+          carefully curated to make your gift unforgettable.
+        </p>
+        <ul>
+          <li>Custom gift hampers</li>
+          <li>Corporate gifting</li>
+          <li>Wedding &amp; event gifts</li>
+          <li>Nationwide delivery</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <h2>Enquire Now</h2>
+      <p>Interested in a gift? Send us a message — we will get back to you.</p>
+
+      <div class="contact-details">
+        <div class="contact-detail">
+          <span class="contact-icon">📞</span>
+          <div>
+            <strong>Phone / WhatsApp</strong>
+            <a href="tel:+263778868317">+263 77 886 8317</a>
+          </div>
+        </div>
+        <div class="contact-detail">
+          <span class="contact-icon">📍</span>
+          <div>
+            <strong>Visit Us</strong>
+            <p>Galaxy Mall, Cnr Jason Moyo &amp; 1st Street<br>Office 45, 2nd Floor</p>
+          </div>
+        </div>
+      </div>
+
+      <form id="contact-form" class="contact-form">
+        <label for="name">Your name</label>
+        <input type="text" id="name" required placeholder="e.g. Tadiwa">
+
+        <label for="phone">Phone / WhatsApp</label>
+        <input type="tel" id="phone" required placeholder="+263 7XX XXX XXX">
+
+        <label for="message">Which gift are you interested in?</label>
+        <textarea id="message" rows="4" required placeholder="Tell us which gift you like..."></textarea>
+
+        <button type="submit" class="btn">Send Enquiry</button>
+        <p id="form-msg" class="form-msg" aria-live="polite"></p>
+      </form>
+
+      <div class="contact-links">
+        <a href="https://wa.me/263778868317" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp">
+          WhatsApp Us
+        </a>
+        <a href="tel:+263778868317" class="btn btn-outline">Call Us</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Lightbox -->
+  <dialog id="lightbox" class="lightbox">
+    <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Close">✕</button>
+    <figure class="lightbox-figure">
+      <img id="lightbox-img" src="" alt="">
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+    <p class="lightbox-note">For enquiries — contact us via WhatsApp or the form above.</p>
+  </dialog>
+
+  <footer class="site-footer">
+    <img src="images/logo.jpg" alt="Tae Gift Hampers logo" class="footer-logo">
+    <p class="footer-brand">Tae gift hampers</p>
+    <p class="footer-slogan">Say it better with us</p>
+    <p>© 2026 Tae Gift Hampers</p>
+    <p class="footer-contact">
+      <a href="tel:+263778868317">+263 77 886 8317</a> ·
+      Galaxy Mall, Office 45, 2nd Floor
+    </p>
+  </footer>
+
+  <script src="products.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

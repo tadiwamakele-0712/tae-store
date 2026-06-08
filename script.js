@@ -70,4 +70,32 @@ menuBtn.addEventListener("click", function () {
   menuBtn.setAttribute("aria-expanded", isOpen);
 });
 
+// Theme toggle
+const themeToggle = document.getElementById("theme-toggle");
+const THEME_KEY = "tae-store-theme";
+
+function getTheme() {
+  return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
+}
+
+function setTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem(THEME_KEY, theme);
+  themeToggle.setAttribute(
+    "aria-label",
+    theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+  );
+  themeToggle.setAttribute("title", theme === "dark" ? "Light mode" : "Dark mode");
+}
+
+if (!localStorage.getItem(THEME_KEY)) {
+  setTheme("light");
+} else {
+  setTheme(getTheme());
+}
+
+themeToggle.addEventListener("click", function () {
+  setTheme(getTheme() === "dark" ? "light" : "dark");
+});
+
 renderProducts();

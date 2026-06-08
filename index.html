@@ -8,6 +8,14 @@
   <link rel="icon" href="images/logo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="images/logo.jpg">
   <link rel="stylesheet" href="styles.css">
+  <script>
+    (function () {
+      var theme = localStorage.getItem("tae-store-theme");
+      if (theme === "dark" || theme === "light") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    })();
+  </script>
 </head>
 <body>
 
@@ -29,6 +37,15 @@
       <a href="#about">About</a>
       <a href="#contact">Contact</a>
     </nav>
+
+    <button type="button" class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Toggle dark / light mode">
+      <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0-5a1 1 0 0 1 1 1v1.07a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1zm0 18a1 1 0 0 1-1-1v-1.07a1 1 0 1 1 2 0V20a1 1 0 0 1-1 1zm10-7h-1.07a1 1 0 1 1 0-2H22a1 1 0 1 1 0 2h-1.07zM3 12a1 1 0 0 1 1-1h1.07a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1zm15.07-6.07a1 1 0 0 1 0 1.41l-.76.76a1 1 0 1 1-1.41-1.41l.76-.76a1 1 0 0 1 1.41 0zM7.1 16.9a1 1 0 0 1 0 1.41l-.76.76a1 1 0 1 1-1.41-1.41l.76-.76a1 1 0 0 1 1.41 0zm9.8 0 .76.76a1 1 0 0 1-1.41 1.41l-.76-.76a1 1 0 1 1 1.41-1.41zM7.1 7.1l-.76-.76A1 1 0 0 1 7.75 5l.76.76A1 1 0 1 1 7.1 7.1z"/>
+      </svg>
+      <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M21 14.5A8.5 8.5 0 0 1 9.5 3 7 7 0 1 0 21 14.5z"/>
+      </svg>
+    </button>
   </header>
 
   <section class="hero">

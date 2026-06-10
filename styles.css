@@ -389,20 +389,6 @@ main {
   padding: 0 0.25rem;
 }
 
-.filter-bar-scroll {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-  justify-content: flex-start;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding-bottom: 0.25rem;
-}
-
-.filter-bar-scroll::-webkit-scrollbar {
-  display: none;
-}
-
 .filter-btn {
   padding: 0.45rem 1rem;
   min-height: 44px;

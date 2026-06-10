@@ -87,6 +87,13 @@ if (menuBtn && nav) {
     const isOpen = nav.classList.toggle("open");
     menuBtn.setAttribute("aria-expanded", isOpen);
   });
+
+  nav.querySelectorAll("a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      nav.classList.remove("open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    });
+  });
 }
 
 var themeToggle = document.getElementById("theme-toggle");

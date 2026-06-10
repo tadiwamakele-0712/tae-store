@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="sn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Share Tae Gift Hampers — luxury gift hampers and boxes in Harare, Zimbabwe.">
+  <title>Share — Tae Gift Hampers</title>
+  <link rel="icon" href="images/logo.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    (function () {
+      var theme = localStorage.getItem("tae-store-theme");
+      if (theme === "dark" || theme === "light") {
+        document.documentElement.setAttribute("data-theme", theme);
+      }
+    })();
+  </script>
+</head>
+<body>
+
+  <header class="site-header">
+    <a href="index.html" class="brand">
+      <img src="images/logo.jpg" alt="Tae Gift Hampers logo" class="brand-logo" width="56" height="56">
+      <span class="brand-text">
+        <span class="brand-name">Tae</span>
+        <span class="brand-sub">gift hampers</span>
+      </span>
+    </a>
+    <nav class="nav">
+      <a href="index.html">← Back to site</a>
+    </nav>
+  </header>
+
+  <main class="share-page">
+    <section class="share-card">
+      <img src="images/logo.jpg" alt="Tae Gift Hampers" class="share-logo">
+      <p class="hero-tag">Say it better with us</p>
+      <h1>Share Tae Gift Hampers</h1>
+      <p class="share-intro">Copy the link below or scan the QR code to share our gift catalogue.</p>
+
+      <div class="share-link-row">
+        <input type="text" id="site-link" class="share-link-input" value="https://tadiwamakele-0712.github.io/tae-store/" readonly aria-label="Website link">
+        <button type="button" class="btn" id="copy-link-btn">Copy Link</button>
+      </div>
+      <p id="copy-msg" class="copy-msg" aria-live="polite"></p>
+
+      <div class="share-actions">
+        <a href="https://wa.me/?text=Check%20out%20Tae%20Gift%20Hampers%20%E2%80%94%20luxury%20gift%20boxes%20%26%20hampers%21%20https%3A%2F%2Ftadiwamakele-0712.github.io%2Ftae-store%2F" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp btn-social">
+          Share on WhatsApp
+        </a>
+        <a href="index.html" class="btn btn-outline">View Catalogue</a>
+      </div>
+
+      <figure class="qr-block">
+        <img
+          src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Ftadiwamakele-0712.github.io%2Ftae-store%2F"
+          alt="QR code — scan to open Tae Gift Hampers website"
+          width="220"
+          height="220"
+          loading="lazy">
+        <figcaption>Scan to open on phone</figcaption>
+      </figure>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-brand">Tae gift hampers</p>
+    <p class="footer-slogan">Say it better with us</p>
+    <p>© 2026 Tae Gift Hampers</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

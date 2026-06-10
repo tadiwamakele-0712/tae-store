@@ -7,6 +7,8 @@ const filterBar = document.getElementById("filter-bar");
 let activeFilter = "All";
 
 function renderProducts() {
+  if (!productGrid || typeof PRODUCTS === "undefined") return;
+
   productGrid.innerHTML = "";
 
   const filtered = activeFilter === "All"
@@ -47,43 +49,48 @@ function renderProducts() {
 }
 
 function openLightbox(product) {
+  if (!lightbox || !lightboxImg || !lightboxCaption) return;
   lightboxImg.src = product.image;
   lightboxImg.alt = product.name;
   lightboxCaption.textContent = product.name;
   lightbox.showModal();
 }
 
-document.getElementById("lightbox-close").addEventListener("click", function () {
-  lightbox.close();
-});
-
-lightbox.addEventListener("click", function (e) {
-  if (e.target === lightbox) {
+var lightboxClose = document.getElementById("lightbox-close");
+if (lightboxClose && lightbox) {
+  lightboxClose.addEventListener("click", function () {
     lightbox.close();
-  }
-});
+  });
 
-// Contact form
-document.getElementById("contact-form").addEventListener("submit", function (e) {
-  e.preventDefault();
-  const name = document.getElementById("name").value.trim();
-  document.getElementById("form-msg").textContent =
-    "Thank you, " + name + "! We will contact you soon.";
-  document.getElementById("contact-form").reset();
-});
+  lightbox.addEventListener("click", function (e) {
+    if (e.target === lightbox) {
+      lightbox.close();
+    }
+  });
+}
 
-// Mobile menu
-const menuBtn = document.getElementById("menu-btn");
-const nav = document.getElementById("nav");
+var contactForm = document.getElementById("contact-form");
+if (contactForm) {
+  contactForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    document.getElementById("form-msg").textContent =
+      "Thank you, " + name + "! We will contact you soon.";
+    contactForm.reset();
+  });
+}
 
-menuBtn.addEventListener("click", function () {
-  const isOpen = nav.classList.toggle("open");
-  menuBtn.setAttribute("aria-expanded", isOpen);
-});
+var menuBtn = document.getElementById("menu-btn");
+var nav = document.getElementById("nav");
+if (menuBtn && nav) {
+  menuBtn.addEventListener("click", function () {
+    const isOpen = nav.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", isOpen);
+  });
+}
 
-// Theme toggle
-const themeToggle = document.getElementById("theme-toggle");
-const THEME_KEY = "tae-store-theme";
+var themeToggle = document.getElementById("theme-toggle");
+var THEME_KEY = "tae-store-theme";
 
 function getTheme() {
   return document.documentElement.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -92,11 +99,13 @@ function getTheme() {
 function setTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
   localStorage.setItem(THEME_KEY, theme);
-  themeToggle.setAttribute(
-    "aria-label",
-    theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
-  );
-  themeToggle.setAttribute("title", theme === "dark" ? "Light mode" : "Dark mode");
+  if (themeToggle) {
+    themeToggle.setAttribute(
+      "aria-label",
+      theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+    );
+    themeToggle.setAttribute("title", theme === "dark" ? "Light mode" : "Dark mode");
+  }
 }
 
 if (!localStorage.getItem(THEME_KEY)) {
@@ -105,9 +114,11 @@ if (!localStorage.getItem(THEME_KEY)) {
   setTheme(getTheme());
 }
 
-themeToggle.addEventListener("click", function () {
-  setTheme(getTheme() === "dark" ? "light" : "dark");
-});
+if (themeToggle) {
+  themeToggle.addEventListener("click", function () {
+    setTheme(getTheme() === "dark" ? "light" : "dark");
+  });
+}
 
 if (filterBar) {
   filterBar.addEventListener("click", function (e) {
@@ -122,4 +133,37 @@ if (filterBar) {
   });
 }
 
+function initShareLink() {
+  var copyBtn = document.getElementById("copy-link-btn");
+  var linkInput = document.getElementById("site-link");
+  var copyMsg = document.getElementById("copy-msg");
+  if (!copyBtn || !linkInput) return;
+
+  copyBtn.addEventListener("click", function () {
+    var url = linkInput.value;
+
+    function showCopied() {
+      if (copyMsg) {
+        copyMsg.textContent = "Link copied! You can paste and share it now.";
+        setTimeout(function () {
+          copyMsg.textContent = "";
+        }, 3000);
+      }
+    }
+
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(showCopied).catch(function () {
+        linkInput.select();
+        document.execCommand("copy");
+        showCopied();
+      });
+    } else {
+      linkInput.select();
+      document.execCommand("copy");
+      showCopied();
+    }
+  });
+}
+
+initShareLink();
 renderProducts();

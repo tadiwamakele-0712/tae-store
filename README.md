@@ -4,9 +4,12 @@ Luxury gift hamper portfolio website for **Tae Gift Hampers** — Harare, Zimbab
 
 > *Say it better with us*
 
-## Live site
+## Live site (share this link)
 
-- **GitHub Pages:** [tadiwamakele-0712.github.io/tae-store](https://tadiwamakele-0712.github.io/tae-store/)
+**https://tadiwamakele-0712.github.io/tae-store/**
+
+Share page with QR code: **https://tadiwamakele-0712.github.io/tae-store/share.html**
+
 - **Local:** open `index.html` in your browser
 
 ## Features

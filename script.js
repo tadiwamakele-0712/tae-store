@@ -2,11 +2,18 @@ const productGrid = document.getElementById("product-grid");
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 const lightboxCaption = document.getElementById("lightbox-caption");
+const filterBar = document.getElementById("filter-bar");
+
+let activeFilter = "All";
 
 function renderProducts() {
   productGrid.innerHTML = "";
 
-  PRODUCTS.forEach(function (product) {
+  const filtered = activeFilter === "All"
+    ? PRODUCTS
+    : PRODUCTS.filter(function (p) { return p.category === activeFilter; });
+
+  filtered.forEach(function (product) {
     const card = document.createElement("article");
     card.className = "product-card";
     card.setAttribute("role", "button");
@@ -17,7 +24,7 @@ function renderProducts() {
       '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy">' +
       '<div class="product-label">' +
       "<h3>" + product.name + "</h3>" +
-      "<p>Tap to view</p>" +
+      "<p>Tap to view · " + product.category + "</p>" +
       "</div>";
 
     card.addEventListener("click", function () {
@@ -33,6 +40,10 @@ function renderProducts() {
 
     productGrid.appendChild(card);
   });
+
+  if (filtered.length === 0) {
+    productGrid.innerHTML = '<p class="empty-grid">No gifts in this category yet — check back soon!</p>';
+  }
 }
 
 function openLightbox(product) {
@@ -97,5 +108,18 @@ if (!localStorage.getItem(THEME_KEY)) {
 themeToggle.addEventListener("click", function () {
   setTheme(getTheme() === "dark" ? "light" : "dark");
 });
+
+if (filterBar) {
+  filterBar.addEventListener("click", function (e) {
+    const btn = e.target.closest(".filter-btn");
+    if (!btn) return;
+
+    activeFilter = btn.getAttribute("data-filter");
+    filterBar.querySelectorAll(".filter-btn").forEach(function (b) {
+      b.classList.toggle("active", b === btn);
+    });
+    renderProducts();
+  });
+}
 
 renderProducts();

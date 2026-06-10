@@ -61,10 +61,13 @@ const GIFT_NAMES = [
   "Elite Gift Collection",
 ];
 
+const CATEGORY_CYCLE = ["Wedding", "Corporate", "Birthday", "Celebration"];
+
 const PRODUCTS = TAE_IMAGES.map(function (file, index) {
   return {
     id: index + 1,
     name: GIFT_NAMES[index] || "Gift Item " + (index + 1),
     image: "images/" + file,
+    category: CATEGORY_CYCLE[index % CATEGORY_CYCLE.length],
   };
 });

@@ -3,6 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="theme-color" content="#1a1410">
   <meta name="description" content="Tae Gift Hampers — luxury gift hampers and boxes. Say it better with us.">
   <title>Tae Gift Hampers</title>
   <link rel="canonical" href="https://tadiwamakele-0712.github.io/tae-store/">
@@ -20,10 +26,12 @@
   <link rel="stylesheet" href="styles.css">
   <script>
     (function () {
-      var theme = localStorage.getItem("tae-store-theme");
-      if (theme === "dark" || theme === "light") {
-        document.documentElement.setAttribute("data-theme", theme);
-      }
+      try {
+        var theme = localStorage.getItem("tae-store-theme");
+        if (theme === "dark" || theme === "light") {
+          document.documentElement.setAttribute("data-theme", theme);
+        }
+      } catch (e) {}
     })();
   </script>
 </head>
@@ -84,7 +92,9 @@
         <button type="button" class="filter-btn" data-filter="Birthday">Birthday</button>
         <button type="button" class="filter-btn" data-filter="Celebration">Celebration</button>
       </div>
-      <div id="product-grid" class="product-grid"></div>
+      <div id="product-grid" class="product-grid">
+        <p class="loading-grid">Loading gifts…</p>
+      </div>
     </section>
 
     <section id="testimonials" class="testimonials-section">
@@ -276,7 +286,7 @@
     </div>
   </footer>
 
-  <script src="products.js"></script>
-  <script src="script.js"></script>
+  <script src="products.js" defer></script>
+  <script src="script.js" defer></script>
 </body>
 </html>

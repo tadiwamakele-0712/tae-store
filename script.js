@@ -6,8 +6,27 @@ const filterBar = document.getElementById("filter-bar");
 
 let activeFilter = "All";
 
+function storageGet(key) {
+  try {
+    return localStorage.getItem(key);
+  } catch (e) {
+    return null;
+  }
+}
+
+function storageSet(key, value) {
+  try {
+    localStorage.setItem(key, value);
+  } catch (e) {}
+}
+
 function renderProducts() {
-  if (!productGrid || typeof PRODUCTS === "undefined") return;
+  if (!productGrid || typeof PRODUCTS === "undefined") {
+    if (productGrid) {
+      productGrid.innerHTML = '<p class="empty-grid">Gifts could not load. Please refresh the page.</p>';
+    }
+    return;
+  }
 
   productGrid.innerHTML = "";
 
@@ -23,7 +42,7 @@ function renderProducts() {
     card.setAttribute("aria-label", "View " + product.name);
 
     card.innerHTML =
-      '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy">' +
+      '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy" decoding="async" width="400" height="400">' +
       '<div class="product-label">' +
       "<h3>" + product.name + "</h3>" +
       "<p>Tap to view · " + product.category + "</p>" +
@@ -53,18 +72,34 @@ function openLightbox(product) {
   lightboxImg.src = product.image;
   lightboxImg.alt = product.name;
   lightboxCaption.textContent = product.name;
-  lightbox.showModal();
+
+  if (typeof lightbox.showModal === "function") {
+    lightbox.showModal();
+  } else {
+    lightbox.setAttribute("open", "open");
+    lightbox.style.display = "block";
+  }
+}
+
+function closeLightbox() {
+  if (!lightbox) return;
+  if (typeof lightbox.close === "function") {
+    lightbox.close();
+  } else {
+    lightbox.removeAttribute("open");
+    lightbox.style.display = "none";
+  }
 }
 
 var lightboxClose = document.getElementById("lightbox-close");
 if (lightboxClose && lightbox) {
   lightboxClose.addEventListener("click", function () {
-    lightbox.close();
+    closeLightbox();
   });
 
   lightbox.addEventListener("click", function (e) {
     if (e.target === lightbox) {
-      lightbox.close();
+      closeLightbox();
     }
   });
 }
@@ -105,7 +140,7 @@ function getTheme() {
 
 function setTheme(theme) {
   document.documentElement.setAttribute("data-theme", theme);
-  localStorage.setItem(THEME_KEY, theme);
+  storageSet(THEME_KEY, theme);
   if (themeToggle) {
     themeToggle.setAttribute(
       "aria-label",
@@ -115,7 +150,7 @@ function setTheme(theme) {
   }
 }
 
-if (!localStorage.getItem(THEME_KEY)) {
+if (!storageGet(THEME_KEY)) {
   setTheme("light");
 } else {
   setTheme(getTheme());

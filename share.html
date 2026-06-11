@@ -3,16 +3,24 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#1a1410">
+  <link rel="canonical" href="https://tadiwamakele-0712.github.io/tae-store/share.html">
   <meta name="description" content="Share Tae Gift Hampers — luxury gift hampers and boxes in Harare, Zimbabwe.">
   <title>Share — Tae Gift Hampers</title>
   <link rel="icon" href="images/logo.jpg" type="image/jpeg">
   <link rel="stylesheet" href="styles.css">
   <script>
     (function () {
-      var theme = localStorage.getItem("tae-store-theme");
-      if (theme === "dark" || theme === "light") {
-        document.documentElement.setAttribute("data-theme", theme);
-      }
+      try {
+        var theme = localStorage.getItem("tae-store-theme");
+        if (theme === "dark" || theme === "light") {
+          document.documentElement.setAttribute("data-theme", theme);
+        }
+      } catch (e) {}
     })();
   </script>
 </head>
@@ -56,12 +64,7 @@
       </div>
 
       <figure class="qr-block">
-        <img
-          src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=https%3A%2F%2Ftadiwamakele-0712.github.io%2Ftae-store%2F"
-          alt="QR code — scan to open Tae Gift Hampers website"
-          width="220"
-          height="220"
-          loading="lazy">
+        <div id="qr-code" class="qr-code" aria-label="QR code for Tae Gift Hampers website"></div>
         <figcaption>Scan to open on phone</figcaption>
       </figure>
     </section>
@@ -73,6 +76,6 @@
     <p>© 2026 Tae Gift Hampers</p>
   </footer>
 
-  <script src="script.js"></script>
+  <script src="share.js" defer></script>
 </body>
 </html>

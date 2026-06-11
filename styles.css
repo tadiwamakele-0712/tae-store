@@ -196,7 +196,7 @@ a {
   background-image: url("images/649974232_954606613761046_474923012872825055_n.jpg");
   background-size: cover;
   background-position: center;
-  background-attachment: fixed;
+  background-attachment: scroll;
 }
 
 .hero-overlay {
@@ -416,6 +416,7 @@ main {
   color: var(--dark);
 }
 
+.loading-grid,
 .empty-grid {
   grid-column: 1 / -1;
   text-align: center;
@@ -798,9 +799,12 @@ main {
   border-top: 1px solid var(--border);
 }
 
-.qr-block img {
+.qr-block img,
+.qr-code img {
   border-radius: 8px;
   border: 1px solid var(--border);
+  max-width: 100%;
+  height: auto;
 }
 
 .qr-block figcaption {

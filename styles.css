@@ -187,12 +187,13 @@ a {
 /* Hero — background image */
 .hero {
   position: relative;
-  min-height: 70vh;
+  min-height: 52vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 4rem 1.5rem;
+  padding: 2.5rem 1rem;
+  background-color: #1a1410;
   background-image: url("images/649974232_954606613761046_474923012872825055_n.jpg");
   background-size: cover;
   background-position: center;
@@ -217,8 +218,8 @@ a {
 }
 
 .hero-logo {
-  width: 140px;
-  height: 140px;
+  width: 96px;
+  height: 96px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid var(--gold);
@@ -439,11 +440,24 @@ main {
   aspect-ratio: 1;
   box-shadow: 0 8px 24px var(--shadow);
   transition: transform 0.3s, box-shadow 0.3s;
+  background: var(--bg-muted);
 }
 
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 16px 40px var(--shadow-hover);
+.product-card--loading img {
+  opacity: 0;
+}
+
+.product-card--loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, var(--bg-muted) 8%, var(--border) 18%, var(--bg-muted) 33%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s linear infinite;
+}
+
+@keyframes shimmer {
+  to { background-position: -200% 0; }
 }
 
 .product-card img {
@@ -451,7 +465,8 @@ main {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s;
+  opacity: 1;
+  transition: opacity 0.25s ease, transform 0.4s;
 }
 
 .product-card:hover img {
@@ -1059,14 +1074,14 @@ main {
   }
 
   .hero {
-    min-height: 55vh;
-    padding: 3rem 1rem;
+    min-height: 42vh;
+    padding: 2rem 0.85rem;
     background-attachment: scroll;
   }
 
   .hero-logo {
-    width: 110px;
-    height: 110px;
+    width: 80px;
+    height: 80px;
   }
 
   main {

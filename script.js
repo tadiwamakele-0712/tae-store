@@ -1,10 +1,12 @@
 const productGrid = document.getElementById("product-grid");
+const loadingGrid = document.getElementById("loading-grid");
 const lightbox = document.getElementById("lightbox");
 const lightboxImg = document.getElementById("lightbox-img");
 const lightboxCaption = document.getElementById("lightbox-caption");
 const filterBar = document.getElementById("filter-bar");
 
 let activeFilter = "All";
+let imageObserver = null;
 
 function storageGet(key) {
   try {
@@ -20,6 +22,110 @@ function storageSet(key, value) {
   } catch (e) {}
 }
 
+function getInitialBatchSize() {
+  var connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+  if (!connection) return 6;
+  if (connection.saveData) return 4;
+  if (connection.effectiveType === "slow-2g" || connection.effectiveType === "2g") return 4;
+  if (connection.effectiveType === "3g") return 6;
+  return 8;
+}
+
+function hideLoadingMessage() {
+  if (loadingGrid) {
+    loadingGrid.hidden = true;
+  }
+}
+
+function updateLoadingMessage(loaded, total) {
+  if (!loadingGrid || loaded >= total) {
+    hideLoadingMessage();
+    return;
+  }
+  loadingGrid.textContent = "Loading gifts " + loaded + " of " + total + "…";
+}
+
+function markCardLoaded(card) {
+  if (card) {
+    card.classList.remove("product-card--loading");
+  }
+}
+
+function loadProductImage(img, card) {
+  if (!img || !img.dataset.src) return;
+
+  var src = img.dataset.src;
+  img.removeAttribute("data-src");
+
+  img.onload = function () {
+    markCardLoaded(card);
+  };
+
+  img.onerror = function () {
+    markCardLoaded(card);
+    img.alt = "Image unavailable";
+  };
+
+  img.src = src;
+}
+
+function observeProductImages(images, eagerCount) {
+  if (!images.length) {
+    hideLoadingMessage();
+    return;
+  }
+
+  var loaded = 0;
+  var total = images.length;
+
+  images.slice(0, eagerCount).forEach(function (item) {
+    loadProductImage(item.img, item.card);
+    loaded += 1;
+    updateLoadingMessage(loaded, total);
+  });
+
+  var remaining = images.slice(eagerCount);
+  if (!remaining.length) {
+    hideLoadingMessage();
+    return;
+  }
+
+  if (!("IntersectionObserver" in window)) {
+    remaining.forEach(function (item) {
+      loadProductImage(item.img, item.card);
+      loaded += 1;
+      updateLoadingMessage(loaded, total);
+    });
+    hideLoadingMessage();
+    return;
+  }
+
+  if (imageObserver) {
+    imageObserver.disconnect();
+  }
+
+  imageObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+
+      var img = entry.target;
+      var card = img.closest(".product-card");
+      loadProductImage(img, card);
+      loaded += 1;
+      updateLoadingMessage(loaded, total);
+      imageObserver.unobserve(img);
+
+      if (loaded >= total) {
+        hideLoadingMessage();
+      }
+    });
+  }, { rootMargin: "120px" });
+
+  remaining.forEach(function (item) {
+    imageObserver.observe(item.img);
+  });
+}
+
 function renderProducts() {
   if (!productGrid || typeof PRODUCTS === "undefined") {
     if (productGrid) {
@@ -29,24 +135,44 @@ function renderProducts() {
   }
 
   productGrid.innerHTML = "";
+  if (loadingGrid) {
+    productGrid.appendChild(loadingGrid);
+    loadingGrid.hidden = false;
+    loadingGrid.textContent = "Opening catalogue…";
+  }
 
   const filtered = activeFilter === "All"
     ? PRODUCTS
     : PRODUCTS.filter(function (p) { return p.category === activeFilter; });
 
-  filtered.forEach(function (product) {
+  const pendingImages = [];
+
+  filtered.forEach(function (product, index) {
     const card = document.createElement("article");
-    card.className = "product-card";
+    card.className = "product-card product-card--loading";
     card.setAttribute("role", "button");
     card.setAttribute("tabindex", "0");
     card.setAttribute("aria-label", "View " + product.name);
 
-    card.innerHTML =
-      '<img src="' + product.image + '" alt="' + product.name + '" loading="lazy" decoding="async" width="400" height="400">' +
-      '<div class="product-label">' +
-      "<h3>" + product.name + "</h3>" +
-      "<p>Tap to view · " + product.category + "</p>" +
-      "</div>";
+    const img = document.createElement("img");
+    img.alt = product.name;
+    img.width = 400;
+    img.height = 400;
+    img.decoding = "async";
+    img.dataset.src = product.image;
+    if (index < 2) {
+      img.loading = "eager";
+      img.fetchPriority = "high";
+    } else {
+      img.loading = "lazy";
+    }
+
+    const label = document.createElement("div");
+    label.className = "product-label";
+    label.innerHTML = "<h3>" + product.name + "</h3><p>Tap to view · " + product.category + "</p>";
+
+    card.appendChild(img);
+    card.appendChild(label);
 
     card.addEventListener("click", function () {
       openLightbox(product);
@@ -60,11 +186,16 @@ function renderProducts() {
     });
 
     productGrid.appendChild(card);
+    pendingImages.push({ img: img, card: card });
   });
 
   if (filtered.length === 0) {
+    hideLoadingMessage();
     productGrid.innerHTML = '<p class="empty-grid">No gifts in this category yet — check back soon!</p>';
+    return;
   }
+
+  observeProductImages(pendingImages, getInitialBatchSize());
 }
 
 function openLightbox(product) {
@@ -196,13 +327,17 @@ function initShareLink() {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(url).then(showCopied).catch(function () {
         linkInput.select();
-        document.execCommand("copy");
-        showCopied();
+        try {
+          document.execCommand("copy");
+          showCopied();
+        } catch (e) {}
       });
     } else {
       linkInput.select();
-      document.execCommand("copy");
-      showCopied();
+      try {
+        document.execCommand("copy");
+        showCopied();
+      } catch (e) {}
     }
   });
 }

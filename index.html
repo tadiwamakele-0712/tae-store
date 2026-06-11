@@ -23,6 +23,7 @@
   <meta name="twitter:image" content="https://tadiwamakele-0712.github.io/tae-store/images/logo.jpg">
   <link rel="icon" href="images/logo.jpg" type="image/jpeg">
   <link rel="apple-touch-icon" href="images/logo.jpg">
+  <link rel="preload" href="images/logo.jpg" as="image">
   <link rel="stylesheet" href="styles.css">
   <script>
     (function () {
@@ -71,7 +72,7 @@
   <section class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <img src="images/logo.jpg" alt="Tae Gift Hampers" class="hero-logo">
+      <img src="images/logo.jpg" alt="Tae Gift Hampers" class="hero-logo" width="96" height="96" fetchpriority="high" decoding="async">
       <p class="hero-tag">Say it better with us</p>
       <h1>Perfect Gifts for Every Occasion</h1>
       <p>Browse our collection — beautiful gift hampers and boxes made with care.</p>
@@ -93,7 +94,7 @@
         <button type="button" class="filter-btn" data-filter="Celebration">Celebration</button>
       </div>
       <div id="product-grid" class="product-grid">
-        <p class="loading-grid">Loading gifts…</p>
+        <p id="loading-grid" class="loading-grid">Opening catalogue…</p>
       </div>
     </section>
 
